@@ -1,0 +1,13 @@
+﻿@model IEnumerable<TaskManager.Domain.Models.Entities.Curso>
+
+<li class="treeview">
+    <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Cursos</span>    
+    <i class="treeview-indicator fa fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu">
+        @foreach (var curso in Model)
+        {
+            <li><a class="treeview-item" asp-controller="Materias" asp-action="GetAllPorCurso" asp-route-id="@curso.Id">@curso.Nome</a></li>
+        }
+    </ul>
+</li>

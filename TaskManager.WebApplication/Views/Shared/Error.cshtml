@@ -1,0 +1,14 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Ops! &nbsp;&nbsp;&nbsp;:(</h1>
+<h2 class="text-danger">Nosso programador esqueceu um ponto e vírgula ao que parece...</h2>
+
+@if (Model.ShowRequestId)
+{
+<p>
+    <strong>Não se preocupe:</strong> nós já salvamos esse erro e iremos tratar ele em breve. &nbsp;&nbsp;:D
+</p>
+}

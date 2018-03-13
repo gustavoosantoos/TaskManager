@@ -1,0 +1,112 @@
+﻿@model IEnumerable<TaskManager.Domain.Models.Entities.Curso>
+
+@{
+    ViewData["Title"] = "Gerenciar Cursos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-graduation-cap"></i> Gerenciar Cursos</h1>
+        <p>Está é a area para você cadastrar os seus cursos e gerenciá-los.</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-title-w-btn">
+                <h3 class="tile-title">Listagem de cursos cadastrados</h3>
+                <p>
+                    <a class="btn btn-success icon-btn" asp-controller="Cursos" asp-action="Adicionar">
+                        <i class="fa fa-plus"></i>Adicionar Curso
+                    </a>
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Nome)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CodigoUsuario)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DataCriacao)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DataUltimaAlteracao)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Nome)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CodigoUsuario)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DataCriacao)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DataUltimaAlteracao)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Editar" asp-route-id="@item.Id">Editar</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                        <a href="#" data-id="@item.Id" class="delete-curso">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $('.delete-curso').click(function () {
+            var that = this;
+            var id = $(that).data('id');
+         
+            swal({
+                title: "Você tem certeza?",
+                text: "Não será possível desfazer essa ação!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim, delete isso!",
+                cancelButtonText: "Não, cancela pfvrzinho!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $.get("/api/Cursos/Delete/" + id);
+                    swal({
+                        title: "Deleted!",
+                        text: "Seu curso foi apagado com sucesso.",
+                        type: "success"
+                    }, function (isConfirm) {
+                        location.reload();
+                    });
+                } else {
+                    swal("Cancelled", "Seu curso não foi apagado, está tudo bem. :)", "error");
+                }
+            });
+        });
+
+    </script>
+}
