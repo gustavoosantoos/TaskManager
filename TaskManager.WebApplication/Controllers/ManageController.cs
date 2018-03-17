@@ -167,7 +167,6 @@ namespace TaskManager.WebApplication.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
-
         #endregion
     }
 }
