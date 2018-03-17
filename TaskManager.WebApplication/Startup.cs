@@ -14,6 +14,8 @@ using TaskManager.WebApplication.Services;
 using TaskManager.Data.Context;
 using Microsoft.AspNetCore.Http;
 using TaskManager.Data.Repositories;
+using TaskManager.Utils.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace TaskManager.WebApplication
 {
@@ -44,10 +46,14 @@ namespace TaskManager.WebApplication
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
-            
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=TaskManagerCore;Trusted_Connection=True;ConnectRetryCount=0";
 
-            services.AddDbContext<TaskManagerContext>(options => options.UseSqlServer(connection));
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=TaskManagerCore;Trusted_Connection=True;ConnectRetryCount=0";
+            
+            services.AddDbContext<TaskManagerContext>(options =>
+            {
+                options.UseSqlServer(connection);
+            });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<CursoRepository, CursoRepository>();
             services.AddScoped<MateriasRepository, MateriasRepository>();
@@ -77,7 +83,8 @@ namespace TaskManager.WebApplication
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-        
+
+            AppDependencyResolver.Init(app.ApplicationServices);
         }
     }
 }

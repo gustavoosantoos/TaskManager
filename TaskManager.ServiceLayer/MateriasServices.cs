@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using TaskManager.Data.Repositories;
 using TaskManager.Domain.Models.Entities;
+using TaskManager.Utils.DependencyInjection;
 
 namespace TaskManager.ServiceLayer
 {
@@ -12,9 +13,9 @@ namespace TaskManager.ServiceLayer
         private readonly MateriasRepository _repository;
         private readonly int _codigoCurso;
 
-        public MateriasServices(MateriasRepository repository, int codigoCurso)
+        public MateriasServices(int codigoCurso)
         {
-            _repository = repository;
+            _repository = AppDependencyResolver.Current.GetService<MateriasRepository>();
             _codigoCurso = codigoCurso;
         }
 

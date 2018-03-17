@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using TaskManager.Data.Repositories;
 using TaskManager.Domain.Models.Entities;
+using TaskManager.Utils.DependencyInjection;
 using TaskManager.Utils.Validators;
 
 namespace TaskManager.ServiceLayer
@@ -15,9 +17,9 @@ namespace TaskManager.ServiceLayer
         private readonly CursoRepository _repository;
         private readonly string _codigoUsuario;
 
-        public CursosServices(CursoRepository repository, string codigoUsuario)
+        public CursosServices(string codigoUsuario)
         {
-            _repository = repository;
+            _repository = AppDependencyResolver.Current.GetService<CursoRepository>();
             _codigoUsuario = codigoUsuario;
         }
 

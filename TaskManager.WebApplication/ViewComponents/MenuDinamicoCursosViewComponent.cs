@@ -17,9 +17,9 @@ namespace TaskManager.WebApplication.ViewComponents
     {
         private readonly CursosServices _service;
 
-        public MenuDinamicoCursosViewComponent(CursoRepository repository, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
+        public MenuDinamicoCursosViewComponent(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
         {
-            _service = new CursosServices(repository, userManager.GetUserId(accessor.HttpContext.User));
+            _service = new CursosServices(userManager.GetUserId(accessor.HttpContext.User));
         }
 
         public async Task<IViewComponentResult> InvokeAsync()

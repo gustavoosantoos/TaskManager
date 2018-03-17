@@ -10,15 +10,17 @@ namespace TaskManager.Data.Repositories
     public class MateriasRepository
     {
         private readonly TaskManagerContext _context;
+        private readonly IQueryable<Materia> _dbSetNotTrackable; 
 
         public MateriasRepository(TaskManagerContext context)
         {
             _context = context;
+            _dbSetNotTrackable = _context.Materias.AsNoTracking();
         }
 
         public IQueryable<Materia> GetAll()
         {
-            return _context.Materias.AsNoTracking();
+            return _dbSetNotTrackable;
         }
 
         public void Save(Materia materia)
@@ -33,12 +35,12 @@ namespace TaskManager.Data.Repositories
 
         public Materia GetById(int id)
         { 
-            return _context.Materias.AsNoTracking().FirstOrDefault(e => e.Id == id);
+            return _dbSetNotTrackable.FirstOrDefault(e => e.Id == id);
         }
 
         public void Delete(int id)
         {
-            var curso = _context.Materias.Find(id);
+            var curso = _dbSetNotTrackable.FirstOrDefault(e => e.Id == id);
             if (curso == null)
                 return;
 
@@ -48,7 +50,7 @@ namespace TaskManager.Data.Repositories
 
         public DateTime GetDataCriacaoDaMateria(int codigoMateria)
         {
-            return _context.Materias.Where(e => e.Id == codigoMateria).Select(e => e.DataCriacao).Single();
+            return _dbSetNotTrackable.Where(e => e.Id == codigoMateria).Select(e => e.DataCriacao).Single();
         }
     }
 }

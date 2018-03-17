@@ -18,10 +18,10 @@ namespace TaskManager.WebApplication.Controllers
     {
         private readonly CursosServices _service;
 
-        public CursosApiController(CursoRepository repository, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
+        public CursosApiController(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
         {
             var userId = userManager.GetUserId(accessor.HttpContext.User);
-            _service = new CursosServices(repository, userId);
+            _service = new CursosServices(userId);
         }
 
         [HttpGet]

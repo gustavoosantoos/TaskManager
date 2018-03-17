@@ -11,46 +11,48 @@ namespace TaskManager.Data.Repositories
 {
     public class CursoRepository
     {
-        private readonly TaskManagerContext context;
+        private readonly TaskManagerContext _context;
+        private readonly IQueryable<Curso> _dbSetNotTrackable;
 
         public CursoRepository(TaskManagerContext context)
         {
-            this.context = context;
+            this._context = context;
+            _dbSetNotTrackable = context.Cursos.AsNoTracking();
         }
 
         public Curso GetById(int id)
         {
-            return context.Cursos.Find(id);
+            return _dbSetNotTrackable.FirstOrDefault(e => e.Id == id);
         }
 
         public IQueryable<Curso> GetAll()
         {
-            return context.Cursos.AsNoTracking();
+            return _dbSetNotTrackable;
         }
 
         public void Save(Curso curso)
         {
             if (curso.Id == default(int))
-                context.Cursos.Add(curso);
+                _context.Cursos.Add(curso);
             else
-                context.Entry(curso).State = EntityState.Modified;
-
-            context.SaveChanges();
+                _context.Entry(curso).State = EntityState.Modified;
+            
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var curso = context.Cursos.Find(id);
+            var curso = _dbSetNotTrackable.FirstOrDefault(e => e.Id == id);
             if (curso == null)
                 return;
 
-            context.Cursos.Remove(curso);
-            context.SaveChanges();
+            _context.Cursos.Remove(curso);
+            _context.SaveChanges();
         }
 
         public DateTime GetDataCriacaoDoCurso(int codigoCurso)
         {
-            return context.Cursos.Where(e => e.Id == codigoCurso).Select(e => e.DataCriacao).Single();
+            return _dbSetNotTrackable.Where(e => e.Id == codigoCurso).Select(e => e.DataCriacao).Single();
         }
     }
 }

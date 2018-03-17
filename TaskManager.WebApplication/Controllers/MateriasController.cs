@@ -18,14 +18,13 @@ namespace TaskManager.WebApplication.Controllers
         private MateriasServices _service;
         private MateriasRepository _repository;
 
-        public MateriasController(MateriasRepository repository, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor) : base(userManager, accessor)
+        public MateriasController(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor) : base(userManager, accessor)
         {
-            _repository = repository;
         }
 
         public IActionResult Index(int codigoCurso)
         {
-            _service = new MateriasServices(_repository, codigoCurso);
+            _service = new MateriasServices(codigoCurso);
             return View(_service.GetAll());
         }   
     }

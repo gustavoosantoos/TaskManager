@@ -10,6 +10,7 @@ using TaskManager.Data.Context;
 using TaskManager.Data.Repositories;
 using TaskManager.Domain.Models.Entities;
 using TaskManager.ServiceLayer;
+using TaskManager.Utils.ClientSide.Alerts;
 using TaskManager.WebApplication.Models;
 
 namespace TaskManager.WebApplication.Controllers
@@ -18,9 +19,9 @@ namespace TaskManager.WebApplication.Controllers
     public class CursosController : BaseController
     {
         private readonly CursosServices _service;
-        public CursosController(CursoRepository repository, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor) : base(userManager, accessor)
+        public CursosController(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor) : base(userManager, accessor)
         {
-            _service = new CursosServices(repository, _codigoUsuario);
+            _service = new CursosServices(_codigoUsuario);
         }
 
         public ActionResult Listar()
@@ -77,7 +78,7 @@ namespace TaskManager.WebApplication.Controllers
 
                 return View();
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
