@@ -11,10 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TaskManager.Utils.ClientSide.Alerts;
 using TaskManager.WebApplication.Models;
 using TaskManager.WebApplication.Models.AccountViewModels;
 using TaskManager.WebApplication.Services;
-using TaskManager.WebApplication.Utils;
 
 namespace TaskManager.WebApplication.Controllers
 {

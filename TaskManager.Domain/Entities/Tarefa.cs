@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using TaskManager.Domain.Exceptions;
+using TaskManager.Domain.Models.Policies;
 
 namespace TaskManager.Domain.Models.Entities
 {
@@ -31,6 +33,16 @@ namespace TaskManager.Domain.Models.Entities
 
         public int CategoriaId { get; set; }
 
-        public virtual Tarefa TarefaPai { get; set; }
+        private Tarefa tarefaPai;
+        public Tarefa TarefaPai
+        {
+            get => tarefaPai;
+            set
+            {
+                if (MaxLevelTaskPolicy.IsSatisfiedBy(this))
+                    tarefaPai = value;
+                throw new MaxTaskLevelPolicyViolatedException();
+            }
+        }
     }
 }
