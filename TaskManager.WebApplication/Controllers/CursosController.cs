@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using TaskManager.Data.Context;
 using TaskManager.Data.Repositories;
 using TaskManager.Domain.Models.Entities;
+using TaskManager.ServiceLayer;
 using TaskManager.WebApplication.Models;
 
 namespace TaskManager.WebApplication.Controllers
@@ -16,14 +17,16 @@ namespace TaskManager.WebApplication.Controllers
     [Authorize]
     public class CursosController : BaseController
     {
-        public CursosController(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor, TaskManagerContext context) : base(userManager, accessor, context)
+        private readonly CursosServices _service;
+        public CursosController(CursoRepository repository, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor) : base(userManager, accessor)
         {
+            _service = new CursosServices(repository, _codigoUsuario);
         }
 
         public ActionResult Listar()
         {
             TempData["GerenciarCursosMenu"] = "active";
-            List<Curso> cursos = new CursoRepository(Context, UserId).GetAll();
+            List<Curso> cursos = _service.GetAll();
             return View(cursos);
         }
 
@@ -42,8 +45,7 @@ namespace TaskManager.WebApplication.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    curso.CodigoUsuario = UserId;
-                    SalvarCurso(curso, isNewCadastro: true);
+                    _service.SalvarCurso(curso);
                     return RedirectToAction(actionName: nameof(Listar));
                 }
 
@@ -57,7 +59,7 @@ namespace TaskManager.WebApplication.Controllers
 
         public ActionResult Editar(int id)
         {
-            var curso = new CursoRepository(Context, UserId).GetById(id);
+            var curso = _service.GetById(id);
             return View(curso);
         }
 
@@ -69,7 +71,7 @@ namespace TaskManager.WebApplication.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    SalvarCurso(curso, isNewCadastro: false);
+                    _service.SalvarCurso(curso);
                     return RedirectToAction(actionName: nameof(Listar));
                 }
 
@@ -79,17 +81,6 @@ namespace TaskManager.WebApplication.Controllers
             {
                 return View();
             }
-        }
-
-        private void SalvarCurso(Curso curso, bool isNewCadastro)
-        {
-            if (isNewCadastro)
-                curso.DataCriacao = DateTime.Now;
-
-            curso.DataUltimaAlteracao = DateTime.Now;
-
-            var repository = new CursoRepository(Context, UserId);
-            repository.Save(curso);
         }
     }
 }

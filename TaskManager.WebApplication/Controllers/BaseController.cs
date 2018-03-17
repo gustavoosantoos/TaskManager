@@ -12,17 +12,15 @@ namespace TaskManager.WebApplication.Controllers
 {
     public class BaseController : Controller
     {
-        public BaseController(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor, TaskManagerContext context)
+        public BaseController(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
         {
-            UserManager = userManager;
-            Accessor = accessor;
-            Context = context;
-            UserId = userManager.GetUserId(Accessor.HttpContext.User);
+            _userManager = userManager;
+            _accessor = accessor;
+            _codigoUsuario = userManager.GetUserId(_accessor.HttpContext.User);
         }
 
-        public UserManager<ApplicationUser> UserManager { get; }
-        public IHttpContextAccessor Accessor { get; }
-        public TaskManagerContext Context { get; }
-        public string UserId { get; }
+        protected readonly UserManager<ApplicationUser> _userManager;
+        protected readonly IHttpContextAccessor _accessor;
+        protected readonly string _codigoUsuario;
     }
 }

@@ -13,6 +13,7 @@ using TaskManager.WebApplication.Models;
 using TaskManager.WebApplication.Services;
 using TaskManager.Data.Context;
 using Microsoft.AspNetCore.Http;
+using TaskManager.Data.Repositories;
 
 namespace TaskManager.WebApplication
 {
@@ -45,10 +46,11 @@ namespace TaskManager.WebApplication
             services.AddMvc();
             
             var connection = @"Server=(localdb)\mssqllocaldb;Database=TaskManagerCore;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<TaskManagerContext>(options => options.UseSqlServer(connection));
 
+            services.AddDbContext<TaskManagerContext>(options => options.UseSqlServer(connection));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            
+            services.AddScoped<CursoRepository, CursoRepository>();
+            services.AddScoped<MateriasRepository, MateriasRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

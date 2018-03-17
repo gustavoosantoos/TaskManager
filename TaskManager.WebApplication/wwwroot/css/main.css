@@ -14243,3 +14243,21 @@ be a descendant of the grid when it is being dragged.
 .user .user-settings label {
     color: #666;
 }
+
+div.scrollmenu {
+    background-color: #333;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+    div.scrollmenu a {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        padding: 14px;
+        text-decoration: none;
+    }
+
+        div.scrollmenu a:hover {
+            background-color: #777;
+        }

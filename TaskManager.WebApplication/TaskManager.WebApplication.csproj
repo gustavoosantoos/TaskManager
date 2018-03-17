@@ -23,10 +23,13 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskManager.Data\TaskManager.Data.csproj" />
     <ProjectReference Include="..\TaskManager.Domain\TaskManager.Domain.csproj" />
+    <ProjectReference Include="..\TaskManager.ServiceLayer\TaskManager.ServiceLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

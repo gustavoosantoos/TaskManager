@@ -8,24 +8,23 @@ using System.Threading.Tasks;
 using TaskManager.Data.Context;
 using TaskManager.Data.Repositories;
 using TaskManager.Domain.Models.Entities;
+using TaskManager.ServiceLayer;
 using TaskManager.WebApplication.Models;
 
 namespace TaskManager.WebApplication.ViewComponents
 {
     public class MenuDinamicoCursosViewComponent : ViewComponent
     {
-        private readonly TaskManagerContext context;
-        private readonly CursoRepository repository;
+        private readonly CursosServices _service;
 
-        public MenuDinamicoCursosViewComponent(TaskManagerContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
+        public MenuDinamicoCursosViewComponent(CursoRepository repository, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
         {
-            this.context = context;
-            repository = new CursoRepository(context, idUsuario: userManager.GetUserId(accessor.HttpContext.User));
+            _service = new CursosServices(repository, userManager.GetUserId(accessor.HttpContext.User));
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var items = await repository.GetAllAsync();
+            var items = _service.GetAll();
             return View(items);
         }
     }

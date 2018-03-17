@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Data.Context;
 using TaskManager.Data.Repositories;
+using TaskManager.ServiceLayer;
 using TaskManager.WebApplication.Models;
 
 namespace TaskManager.WebApplication.Controllers
@@ -15,25 +16,19 @@ namespace TaskManager.WebApplication.Controllers
     [Route("api/Cursos")]
     public class CursosApiController : Controller
     {
-        public TaskManagerContext Context { get; set; }
-        public UserManager<ApplicationUser> UserManager { get; set; }
-        public IHttpContextAccessor Accessor { get; set; }
-        public string UserId { get; set; }
+        private readonly CursosServices _service;
 
-        public CursosApiController(TaskManagerContext context, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
+        public CursosApiController(CursoRepository repository, UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor)
         {
-            Accessor = accessor;
-            UserManager = userManager;
-            Context = context;
-            UserId = userManager.GetUserId(Accessor.HttpContext.User);
+            var userId = userManager.GetUserId(accessor.HttpContext.User);
+            _service = new CursosServices(repository, userId);
         }
 
         [HttpGet]
         [Route("{id}")]
         public IActionResult Get(int id)
         {
-            var repository = new CursoRepository(Context, UserId);
-            var curso = repository.GetById(id);
+            var curso = _service.GetById(id);
 
             if (curso == null)
                 return NotFound();
@@ -47,9 +42,7 @@ namespace TaskManager.WebApplication.Controllers
         {
             try
             {
-                var repository = new CursoRepository(Context, UserId);
-                repository.Delete(id);
-
+                _service.DeletarCurso(id);
                 return Ok(true);
             }
             catch

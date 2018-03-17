@@ -6,7 +6,7 @@ using TaskManager.Domain.Models.Entities;
 
 namespace TaskManager.Domain.Models.Policies
 {
-    public class MaxLevelTaskPolicy
+    public static class MaxLevelTaskPolicy
     {
         private const int MAX_LEVEL = 3;
 

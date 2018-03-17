@@ -7,7 +7,7 @@
     <ul class="treeview-menu">
         @foreach (var curso in Model)
         {
-            <li><a class="treeview-item" asp-controller="Materias" asp-action="GetAllPorCurso" asp-route-id="@curso.Id">@curso.Nome</a></li>
+            <li><a class="treeview-item" asp-controller="Materias" asp-route-id="@curso.Id">@curso.Nome</a></li>
         }
     </ul>
 </li>

@@ -112,7 +112,7 @@ namespace TaskManager.WebApplication.Controllers
             }
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+            var callbackUrl = Url.EmailConfirmationLink(user.Id, System.Web.HttpUtility.UrlDecode(code), Request.Scheme);
             var email = user.Email;
             await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
@@ -130,7 +130,7 @@ namespace TaskManager.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (TaskManager.Domain.Util.ObjectValidator.IsValid(model) == false)
+            if (TaskManager.Utils.Validators.ObjectValidator.IsValid(model) == false)
             {
                 return RedirectToAction(nameof(Index));
             }
