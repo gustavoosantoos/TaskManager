@@ -11,11 +11,13 @@ using TaskManager.Data.Repositories;
 using TaskManager.Domain.Models.Entities;
 using TaskManager.ServiceLayer;
 using TaskManager.Utils.ClientSide.Alerts;
+using TaskManager.WebApplication.Filters;
 using TaskManager.WebApplication.Models;
 
 namespace TaskManager.WebApplication.Controllers
 {
     [Authorize]
+    [UserFriendlyExceptionFilter]
     public class CursosController : BaseController
     {
         private readonly CursosServices _service;
@@ -42,20 +44,14 @@ namespace TaskManager.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Adicionar(Curso curso)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _service.SalvarCurso(curso);
-                    return RedirectToAction(actionName: nameof(Listar));
-                }
 
-                return View();
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                _service.SalvarCurso(curso);
+                return RedirectToAction(actionName: nameof(Listar));
             }
+
+            return View();
         }
 
         public ActionResult Editar(int id)
@@ -68,20 +64,13 @@ namespace TaskManager.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar(Curso curso)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    _service.SalvarCurso(curso);
-                    return RedirectToAction(actionName: nameof(Listar));
-                }
+                _service.SalvarCurso(curso);
+                return RedirectToAction(actionName: nameof(Listar));
+            }
 
-                return View();
-            }
-            catch (Exception ex)
-            {
-                return View();
-            }
+            return View();
         }
     }
 }
