@@ -54,12 +54,14 @@ namespace TaskManager.WebApplication.Controllers
             return View();
         }
 
+        // GET: Cursos/Editar
         public ActionResult Editar(int id)
         {
             var curso = _service.GetById(id);
             return View(curso);
         }
 
+        // POST: Curso/Editar
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Editar(Curso curso)
