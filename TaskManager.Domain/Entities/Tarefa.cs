@@ -33,14 +33,14 @@ namespace TaskManager.Domain.Models.Entities
 
         public int CategoriaId { get; set; }
 
-        private Tarefa tarefaPai;
+        private Tarefa _tarefaPai;
         public Tarefa TarefaPai
         {
-            get => tarefaPai;
+            get => _tarefaPai;
             set
             {
                 if (MaxLevelTaskPolicy.IsSatisfiedBy(this))
-                    tarefaPai = value;
+                    _tarefaPai = value;
                 throw new MaxTaskLevelPolicyViolatedException();
             }
         }

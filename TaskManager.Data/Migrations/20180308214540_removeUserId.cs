@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TaskManager.Data.Migrations
 {
-    public partial class removeUserId : Migration
+    public partial class RemoveUserId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

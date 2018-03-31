@@ -12,7 +12,7 @@ namespace TaskManager.Data.Migrations
 {
     [DbContext(typeof(TaskManagerContext))]
     [Migration("20180308214540_removeUserId")]
-    partial class removeUserId
+    partial class RemoveUserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -8,7 +8,7 @@ namespace TaskManager.Domain.Models.Policies
 {
     public static class MaxLevelTaskPolicy
     {
-        private const int MAX_LEVEL = 3;
+        private const int MaxLevel = 3;
 
         public static bool IsSatisfiedBy(Tarefa tarefa)
         {
@@ -23,7 +23,7 @@ namespace TaskManager.Domain.Models.Policies
                 currentLevel++;
             }
 
-            return currentLevel <= MAX_LEVEL;
+            return currentLevel <= MaxLevel;
         }
     }
 }

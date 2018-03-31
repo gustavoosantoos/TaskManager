@@ -23,7 +23,7 @@ namespace TaskManager.WebApplication.Controllers
         private readonly CursosServices _service;
         public CursosController(UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor) : base(userManager, accessor)
         {
-            _service = new CursosServices(_codigoUsuario);
+            _service = new CursosServices(CodigoUsuario);
         }
 
         public ActionResult Listar()
